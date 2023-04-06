@@ -4,6 +4,9 @@ Obj/
 UnityGenerated/
 Library?
 Assets/AssetsStoreTools*
+sysinfo.txt
+*.apk
+*.unitypackage
 
 # MonoDevelop generated #
 ExlporeObj/
@@ -18,7 +21,6 @@ ExlporeObj/
 *.booproj
 
 # OS generated
-
 .DS_Store
 .DS_Store?
 ._*
