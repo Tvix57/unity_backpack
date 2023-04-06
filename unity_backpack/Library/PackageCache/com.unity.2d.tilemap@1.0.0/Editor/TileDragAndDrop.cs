@@ -335,8 +335,9 @@ namespace UnityEditor.Tilemaps
 
         public static List<TileBase> ConvertToTileSheet(Dictionary<Vector2Int, TileDragAndDropHoverData> sheet)
         {
-            var result = new List<TileBase>();
-            var defaultPath = TileDragAndDropManager.GetDefaultTileAssetDirectoryPath();
+            List<TileBase> result = new List<TileBase>();
+
+            string defaultPath = TileDragAndDropManager.GetDefaultTileAssetPath();
 
             // Early out if all objects are already tiles
             if (sheet.Values.ToList().FindAll(data => data.hoverObject is TileBase).Count == sheet.Values.Count)
@@ -407,7 +408,7 @@ namespace UnityEditor.Tilemaps
                 // Do not check if this will overwrite new tile as user has explicitly selected the file to save to
                 path = EditorUtility.SaveFilePanelInProject("Generate new tile", sheet.Values.First().hoverObject.name, k_TileExtension, "Generate new tile", defaultPath);
             }
-            TileDragAndDropManager.SetUserTileAssetDirectoryPath(path);
+            TileDragAndDropManager.SetUserTileAssetPath(path);
 
             if (string.IsNullOrEmpty(path))
                 return result;
@@ -416,7 +417,6 @@ namespace UnityEditor.Tilemaps
             uniqueNames.Clear();
             EditorUtility.DisplayProgressBar("Generating Tile Assets (" + i + "/" + sheet.Count + ")", "Generating tiles", 0f);
 
-            AssetDatabase.StartAssetEditing();
             try
             {
                 MethodInfo createTileMethod = GridPaintActiveTargetsPreferences.GetCreateTileFromPaletteUsingPreferences();
@@ -479,7 +479,6 @@ namespace UnityEditor.Tilemaps
             }
             finally
             {
-                AssetDatabase.StopAssetEditing();
                 EditorUtility.ClearProgressBar();
             }
 

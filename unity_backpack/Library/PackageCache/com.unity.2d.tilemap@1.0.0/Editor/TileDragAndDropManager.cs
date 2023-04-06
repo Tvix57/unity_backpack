@@ -131,7 +131,7 @@ namespace UnityEditor.Tilemaps
             }
         }
 
-        internal static string GetDefaultTileAssetDirectoryPath()
+        internal static string GetDefaultTileAssetPath()
         {
             var path = instance.m_LastUserTileAssetPath;
             if (String.IsNullOrEmpty(path))
@@ -143,12 +143,9 @@ namespace UnityEditor.Tilemaps
             return path;
         }
 
-        internal static void SetUserTileAssetDirectoryPath(string path)
+        internal static void SetUserTileAssetPath(string path)
         {
-            var directoryPath = String.Empty;
-            if (!String.IsNullOrEmpty(path))
-                directoryPath = FileUtil.UnityGetDirectoryName(path);
-            instance.m_LastUserTileAssetPath = directoryPath;
+            instance.m_LastUserTileAssetPath = path;
         }
 
         static Tilemap GetOrCreateActiveTilemap()
