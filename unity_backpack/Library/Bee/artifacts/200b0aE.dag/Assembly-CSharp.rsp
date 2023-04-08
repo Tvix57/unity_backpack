@@ -370,11 +370,10 @@
 -r:"Library/Bee/artifacts/200b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/200b0aE.dag/UnityEngine.UI.ref.dll"
-"Assets/Scenes/Backpack/backpackGrid.cs"
-"Assets/Scenes/items/AbstracItem.cs"
-"Assets/Scenes/items/Armors/ItemArmor.cs"
-"Assets/Scenes/items/Guns/ItemGun.cs"
-"Assets/Scenes/items/Сonsumables/ItemCons.cs"
+"Assets/Scripts/ItemSystem/Scripts/AssetItem.cs"
+"Assets/Scripts/ItemSystem/Scripts/IItem.cs"
+"Assets/Scripts/ItemSystem/Scripts/Inventory.cs"
+"Assets/Scripts/ItemSystem/Scripts/InventoryShower.cs"
 -langversion:9.0
 
 /deterministic
