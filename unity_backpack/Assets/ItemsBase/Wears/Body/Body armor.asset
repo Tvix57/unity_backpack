@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Body armor
   m_EditorClassIdentifier: 
   _name: Body armor
-  _icon: {fileID: 21300000, guid: 6e475f82e2ed346ff9c0c27263d2f332, type: 3}
+  _icon: {fileID: 21300000, guid: 973af6c67e18c4db599aafe001f3859a, type: 3}

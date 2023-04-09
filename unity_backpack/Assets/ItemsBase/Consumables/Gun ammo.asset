@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Gun ammo
   m_EditorClassIdentifier: 
   _name: Gun ammo
-  _icon: {fileID: 21300000, guid: 6745d71cb75844834aaede05e1ef099a, type: 3}
+  _icon: {fileID: 21300000, guid: c7d314da6c8d147a1a20ea6154a8b83f, type: 3}

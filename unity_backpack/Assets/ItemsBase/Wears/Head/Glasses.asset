@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Glasses
   m_EditorClassIdentifier: 
   _name: Glasses
-  _icon: {fileID: 21300000, guid: 5aee413a274124c348ff617fe4642f91, type: 3}
+  _icon: {fileID: 21300000, guid: dcbe3851d385348989e9f6e7b743d85e, type: 3}

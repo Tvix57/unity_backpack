@@ -627,6 +627,9 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420035}
+  - component: {fileID: 519420034}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -701,6 +704,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
+--- !u!114 &519420035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &601199692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,8 +1647,15 @@ MonoBehaviour:
   Items:
   - {fileID: 11400000, guid: d42150abe985c44e0b61f37cc3129492, type: 2}
   - {fileID: 11400000, guid: c600c5206e1994a45a45419303776b90, type: 2}
+  - {fileID: 11400000, guid: ed85e4971fc8c4a2abb57a89fbf717e3, type: 2}
+  - {fileID: 11400000, guid: 59e9ce90d37514327bb7468a9ca91381, type: 2}
+  - {fileID: 11400000, guid: 72cd4813e32df4e109157ed2b99e2dcb, type: 2}
+  - {fileID: 11400000, guid: 59c2990336408484da59b59f0d47c38c, type: 2}
+  - {fileID: 11400000, guid: d13d7022f8855476e84b7f72147de1d7, type: 2}
+  - {fileID: 11400000, guid: 6a8ebd26163c2473eb41939b235cd1ab, type: 2}
   _inventoryShower: {fileID: 3018386099414380291, guid: 13254e535e4054e34be0cc7df149d4ab, type: 3}
   _container: {fileID: 855064502}
+  _draggingParent: {fileID: 1794801270}
 --- !u!1 &2100635763
 GameObject:
   m_ObjectHideFlags: 0

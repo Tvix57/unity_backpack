@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Helmet
   m_EditorClassIdentifier: 
   _name: Helmet
-  _icon: {fileID: 21300000, guid: ccefc24f2c64546258e8e8f4280fcf28, type: 3}
+  _icon: {fileID: 21300000, guid: 212db94c8ee994b469d76026ddece8e0, type: 3}
