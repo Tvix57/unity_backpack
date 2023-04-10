@@ -26,15 +26,43 @@ public class Inventory : MonoBehaviour
             cell.Render(item);
         });
     } 
+
     public void AddItem(AssetItem item) {
-        if (Items.Count <= _unlock_size) {
+        if (Items.Count < _unlock_size) {
             Items.Add(item);
+            Render(Items);
         }
     }
+
     public void RemoveItem() {
         if (Items.Count != 0) {
-            Items.RemoveAt(UnityEngine.Random.Range(0, Items.Count));
+            Items.RemoveAt(UnityEngine.Random.Range(0, Items.Count - 1));
+            Render(Items);
         }
+    }
+
+    public void AddRandomItem() {
+
+        var new_item = new AssetItem();
+        AddItem(new_item);
+    }
+
+    public void AddAmmo() {
+        List<AssetItem> ammos;
+        foreach (AssetItem item in ammos) {
+            if (Items.Count < _unlock_size) {
+                new_item.Count = new_item.Max_stack;
+                AddItem(new_item);
+            } else {
+                break;
+            }
+        }
+        Render(Items);
+    }
+
+    public void Shoot() {
+        //find ammo and -1
+        Render(Items);
     }
 }
  

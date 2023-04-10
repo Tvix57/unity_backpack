@@ -341,7 +341,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 107405943}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1949848678}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: AddRandomItem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &107405943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1941,7 +1953,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1513827456}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1949848678}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: Shoot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1513827456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2100,7 +2124,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1668348945}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1949848678}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: AddAmmo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1668348945
 MonoBehaviour:
   m_ObjectHideFlags: 0
