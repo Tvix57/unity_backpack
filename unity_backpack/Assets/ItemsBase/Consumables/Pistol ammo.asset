@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Pistol ammo
   _icon: {fileID: 21300000, guid: bfcc079811e1d44c4848a39fa813f955, type: 3}
+  _mass: 0.01
+  _stackable: 1
+  _max_stack: 7
+  _count: 2

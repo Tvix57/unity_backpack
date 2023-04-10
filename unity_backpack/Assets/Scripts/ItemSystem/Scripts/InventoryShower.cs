@@ -2,12 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-
 public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     [SerializeField] private Text _nameField;
     [SerializeField] private Image _icon;
-    [SerializeField] private int _count;
+    [SerializeField] private Text _count;
 
     private Transform _draggingParent;
     private Transform _originalParent;
@@ -21,6 +20,14 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
         _nameField.text = item.Name;
         _icon.sprite = item.Icon;
         _icon.preserveAspect = true;
+        if (_count != null) {
+            if (item.Stackable && item.Count > 1) {
+                // _count.gameObject.SetActive(true);
+                _count.text = item.Count.ToString();
+            } else {
+                // _count.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
