@@ -22,10 +22,9 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
         _icon.preserveAspect = true;
         if (_count != null) {
             if (item.Stackable && item.Count > 1) {
-                // _count.gameObject.SetActive(true);
                 _count.text = item.Count.ToString();
             } else {
-                // _count.gameObject.SetActive(false);
+                _count.text = "";
             }
         }
     }

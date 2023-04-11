@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c95f44d4ea40d4ab39a89a03cd1b2ab9, type: 3}
   m_Name: Pistol ammo
   m_EditorClassIdentifier: 
+  _id: 0
   _name: Pistol ammo
   _icon: {fileID: 21300000, guid: bfcc079811e1d44c4848a39fa813f955, type: 3}
   _mass: 0.01
+  _type: 2
   _stackable: 1
   _max_stack: 7
   _count: 2

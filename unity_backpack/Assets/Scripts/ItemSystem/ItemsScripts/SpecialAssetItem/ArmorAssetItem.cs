@@ -2,17 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmorAssetItem : MonoBehaviour
+public class ArmorAssetItem : AssetItem
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public uint Armor => _armor;
+    [SerializeField] private uint _armor = 0;
 }
