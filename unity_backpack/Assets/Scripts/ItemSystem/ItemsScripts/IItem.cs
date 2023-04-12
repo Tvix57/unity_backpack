@@ -5,14 +5,22 @@ public interface IItem
 {
     public enum ItemType {
         Armor, 
-        Gun,
+        Weapon,
         Cons
+    }
+    public enum ItemSlot {
+        Head, 
+        Body,
+        Hands,
+        Trinket,
+        NoSlot
     }
     int ID { get; }
     string  Name { get; }
     Sprite  Icon { get; }
     double  Mass { get; }
     ItemType Type { get; }
+    ItemSlot Slot { get; }
     bool    Stackable { get; }
     uint    Max_stack { get; }
     uint    Count { get; set; }

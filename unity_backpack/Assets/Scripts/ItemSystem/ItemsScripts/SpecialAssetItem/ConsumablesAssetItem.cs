@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class ConsumablesAssetItem : MonoBehaviour
+[CreateAssetMenu(menuName = "Item/Consumables")] 
+public class ConsumablesAssetItem : AssetItem
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public enum Type {
+        Gun_bullet,
+        Pistol_bullet,
+        Food
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Type ItemType => _item_type;
+    [SerializeField] private Type _item_type;
 }

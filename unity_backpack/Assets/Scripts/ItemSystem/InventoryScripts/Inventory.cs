@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class Inventory : MonoBehaviour
 {
@@ -67,32 +68,43 @@ public class Inventory : MonoBehaviour
 
     public void RemoveItem() {
         if (Items.Count != 0) {
-            Items.RemoveAt(UnityEngine.Random.Range(0, Items.Count - 1));
+            Items.RemoveAt(UnityEngine.Random.Range(0, Items.Count));
             RenderItems(Items);
         }
     }
 
     public void AddRandomItem() {
-        GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs");
-        int randomIndex = UnityEngine.Random.Range(0, prefabs.Length);
-        GameObject randomPrefab = Instantiate(prefabs[randomIndex]);
 
-        var new_item = new AssetItem();
-        AddItem(new_item);
+        // GameObject[] prefabs;
+        // if (prefabs.Length != 0) {
+        //     int randomIndex = UnityEngine.Random.Range(0, prefabs.Length);
+        //     GameObject randomPrefab = Instantiate(prefabs[randomIndex]);
+        // }
+
+        string[] guids = AssetDatabase.FindAssets("t:Prefab");
+        foreach (string guid in guids)
+        {
+            // prefabs.Add(Resources.Load<GameObject>(AssetDatabase.GUIDToAssetPath(guid)));
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            Debug.Log(path);
+        }
+        // Debug.Log(prefabs.Length.ToString());
+        // var new_item = new AssetItem();
+        // AddItem(new_item);
     }
 
     public void AddAmmo() {
-        Object[] prefabs_ammo = Resources.LoadAll("Prefabs/AmmoPrefabs", typeof(GameObject));
-        for (int i = 0; i < prefabs_ammo.Length; ++i) {
-            if (Items.Count < _unlock_size) {
+        // Object[] prefabs_ammo = Resources.LoadAll("Prefabs/AmmoPrefabs", typeof(GameObject));
+        // for (int i = 0; i < prefabs_ammo.Length; ++i) {
+        //     if (Items.Count < _unlock_size) {
 
                 
-                item.Count = item.Max_stack;
-                AddItem(item);
-            } else {
-                break;
-            }
-        }
+        //         item.Count = item.Max_stack;
+        //         AddItem(item);
+        //     } else {
+        //         break;
+        //     }
+        // }
     }
 
     public bool GetAmmo() {
