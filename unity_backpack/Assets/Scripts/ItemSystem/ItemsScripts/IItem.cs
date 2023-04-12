@@ -6,7 +6,7 @@ public interface IItem
     public enum ItemType {
         Armor, 
         Weapon,
-        Cons
+        Consumables
     }
     public enum ItemSlot {
         Head, 

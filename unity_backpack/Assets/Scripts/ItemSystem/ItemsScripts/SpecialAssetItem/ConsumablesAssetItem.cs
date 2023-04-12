@@ -11,6 +11,6 @@ public class ConsumablesAssetItem : AssetItem
         Pistol_bullet,
         Food
     }
-    public Type ItemType => _item_type;
-    [SerializeField] private Type _item_type;
+    public Type ConsumableType => _сonsumable_type;
+    [SerializeField] private Type _сonsumable_type;
 }

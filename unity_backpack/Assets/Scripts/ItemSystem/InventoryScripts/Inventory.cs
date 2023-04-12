@@ -74,43 +74,45 @@ public class Inventory : MonoBehaviour
     }
 
     public void AddRandomItem() {
-
-        // GameObject[] prefabs;
-        // if (prefabs.Length != 0) {
-        //     int randomIndex = UnityEngine.Random.Range(0, prefabs.Length);
-        //     GameObject randomPrefab = Instantiate(prefabs[randomIndex]);
-        // }
-
-        string[] guids = AssetDatabase.FindAssets("t:Prefab");
-        foreach (string guid in guids)
-        {
-            // prefabs.Add(Resources.Load<GameObject>(AssetDatabase.GUIDToAssetPath(guid)));
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            Debug.Log(path);
+        AssetItem[] allItems = Resources.LoadAll<AssetItem>("Prefabs/ItemsBase/Equipment");
+        if (allItems.Length != 0) {
+            int randomIndex = UnityEngine.Random.Range(0, allItems.Length);
+            AssetItem randomItem = Instantiate(allItems[randomIndex]);
+            AddItem(randomItem);
         }
-        // Debug.Log(prefabs.Length.ToString());
-        // var new_item = new AssetItem();
-        // AddItem(new_item);
     }
 
     public void AddAmmo() {
-        // Object[] prefabs_ammo = Resources.LoadAll("Prefabs/AmmoPrefabs", typeof(GameObject));
-        // for (int i = 0; i < prefabs_ammo.Length; ++i) {
-        //     if (Items.Count < _unlock_size) {
-
-                
-        //         item.Count = item.Max_stack;
-        //         AddItem(item);
-        //     } else {
-        //         break;
-        //     }
-        // }
+        AssetItem[] allItems = Resources.LoadAll<AssetItem>("Prefabs/ItemsBase/Consumables");
+        for (int i = 0; i < allItems.Length; ++i) {
+            if (Items.Count < _unlock_size) {
+                AssetItem ammo = Instantiate(allItems[i]);
+                ammo.Count = ammo.Max_stack;
+                AddItem(ammo);
+            } else {
+                break;
+            }
+        }
     }
 
-    public bool GetAmmo() {
-        //find ammo and -1
-        RenderItems(Items);
-        return false;
+    public bool GetAmmo(ConsumablesAssetItem.Type _ammo_type) {
+        bool result = false;
+        for (int i = 0; i < Items.Count; ++i) {
+            if (Items[i].Type == IItem.ItemType.Consumables) {
+                ConsumablesAssetItem cons = Items[i] as ConsumablesAssetItem;
+                if (cons.ConsumableType == _ammo_type) {
+                    if (cons.Count > 1) {
+                        --cons.Count;
+                    } else {
+                        Items.RemoveAt(i);
+                    }
+                    result = true;
+                    RenderItems(Items);
+                    break;
+                }
+            }
+        }
+        return result;
     }
 }
  
