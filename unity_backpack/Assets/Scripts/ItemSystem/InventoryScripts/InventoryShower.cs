@@ -38,6 +38,13 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
     
     public void OnEndDrag(PointerEventData eventData) {
+        //if (coord - on enventory)
+        // transfor.parent = GetNewParent();
+        // if (transfor.parent == )
+        // SetParentInventory();
+    }
+
+    private void SetParentInventory() {
         int closestIndex = 0;
         for(int i = 0; i < _originalParent.transform.childCount; i++) {
             if (Vector3.Distance(transform.position, _originalParent.GetChild(i).position) < 
@@ -47,5 +54,18 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
         }
         transform.parent = _originalParent;
         transform.SetSiblingIndex(closestIndex);
+    }
+
+    private void SetParentEquipment() {
+
+    }
+
+    private void SetParentWorld() {
+
+    }
+
+    private Transform GetNewParent() {
+        Transform new_parent;
+        return new_parent;
     }
 }
