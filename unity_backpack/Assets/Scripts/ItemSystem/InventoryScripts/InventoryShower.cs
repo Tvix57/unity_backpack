@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using System;
 
 public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
-    public event Action Injecting;
+    public event Action Drop;
+    public event Action Eqip;
 
     [SerializeField] private Text _nameField;
     [SerializeField] private Image _icon;
@@ -41,28 +43,12 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
     
     public void OnEndDrag(PointerEventData eventData) {
-        // eventData.position = Input.mousePosition;
-        // List<RaycastResult> results = new List<RaycastResult>();
-        // EventSystem.current.RaycastAll(eventData, results);
-        // gameObject parent_obj = _originalParent.parent;
-
-        // if (results.Count > 0) {
-        //     foreach(RaycastResult result in results) {
-        //         if (result.gameObject.name == "Inventory") {
-        //             if () {
-        //                 SetParentEquipment();
-        //                 break;
-        //             }
-        //             SetParentInventory();
-        //             break;
-        //         }
-                
-        //     }
-
-        //     SetParentWorld()
-        // }
-        if (In((RectTransform)_originalParent)) {
-            SetParentInventory();
+        if (InInventory(eventData)) {
+            if (InEqupment(eventData)) {
+                SetParentEquipment();
+            } else {
+                SetParentInventory();
+            }
         } else {
             SetParentWorld();
         }
@@ -81,15 +67,30 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
 
     private void SetParentEquipment() {
-
+        Eqip?.Invoke();
     }
 
     private void SetParentWorld() {
-        Injecting?.Invoke();
+        Drop?.Invoke();
     }
 
-    // private Transform GetNewParent() {
-    //     Transform new_parent;
-    //     return new_parent;
-    // }
+    private bool InInventory(PointerEventData eventData) {
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        if (results.Count > 0) {
+            foreach(RaycastResult result in results) {
+                Debug.Log(result.gameObject.name);
+                if (result.gameObject.name == "Inventory") {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private bool InEqupment(PointerEventData eventData) {
+        // return originalParent.rect.Contains(transform.position);
+        return false;
+    }
 }

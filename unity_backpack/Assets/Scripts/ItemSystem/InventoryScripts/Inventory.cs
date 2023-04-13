@@ -6,6 +6,8 @@ using UnityEditor;
 
 public class Inventory : MonoBehaviour
 {
+    public delegate bool EquipDelegate(AssetItem item);
+
     [SerializeField] private List<AssetItem> Items;
     [SerializeField] private InventoryShower _inventoryShower;
     [SerializeField] private InventoryCell _inventoryCell;
@@ -42,6 +44,8 @@ public class Inventory : MonoBehaviour
             var cell = Instantiate(_inventoryShower, _container);
             cell.Init(_draggingParent);
             cell.Render(item);
+            cell.Drop += () => Destroy(cell.gameObject);
+            cell.Eqip += () => TryEquip(cell);
         });
     }
 
@@ -113,6 +117,14 @@ public class Inventory : MonoBehaviour
             }
         }
         return result;
+    }
+
+    public void TryEquip(AssetItem item) {
+        if(true) { ///проверка на соответствие слота
+            if (EquipDelegate?.(item)) {
+                Destroy(cell.gameObject);
+            } 
+        }
     }
 }
  

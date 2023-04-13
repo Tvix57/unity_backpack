@@ -5,6 +5,7 @@ using UnityEngine;
 public class Equipment : MonoBehaviour
 {
     public Inventory Invetory =>_inventory;
+
     public uint Armor { 
         get { 
             uint arm = 0;
@@ -28,11 +29,15 @@ public class Equipment : MonoBehaviour
     }
 
     [SerializeField] private Inventory _inventory;
-    [SerializeField] private InventoryShower _inventoryShower;
+    // [SerializeField] private InventoryShower _inventoryShower;
     private ArmorAssetItem _head = null;
     private ArmorAssetItem _body = null;
     private GunAssetItem _weapon = null;
     
+    public void Start() {
+        _inventory.EquipDelegate += SetItem;
+    }
+
     public void Shoot() {
         if (_weapon != null && _inventory.GetAmmo(_weapon.AmmoType)) {
             Debug.Log("Shoot");
@@ -40,12 +45,13 @@ public class Equipment : MonoBehaviour
             Debug.Log("No ammo");
         }
     }
-    public void SetItem(AssetItem item) {
+    public bool SetItem(AssetItem item) {
         switch(item.Slot) {
             case IItem.ItemSlot.Head: { _head = item as ArmorAssetItem; break; }
             case IItem.ItemSlot.Body: { _body = item as ArmorAssetItem; break; }
             case IItem.ItemSlot.Hands: { _weapon = item as GunAssetItem; break; }
             default: break;
+            
         }
     }
 }
