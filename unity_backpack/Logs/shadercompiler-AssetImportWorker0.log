@@ -1,6 +1,3 @@
-Base path: '/home/dmkoba/2021.3.15f1/Editor/Data', plugins path '/home/dmkoba/2021.3.15f1/Editor/Data/PlaybackEngines'
+Base path: '/opt/goinfre/ajhin/2021.3.15f1/Unity.app/Contents', plugins path '/opt/goinfre/ajhin/2021.3.15f1/PlaybackEngines'
 Cmd: initializeCompiler
 
-Unhandled exception: Protocol error - failed to read magic number (error -2147483644, transferred 0/4)
-
-Quitting shader compiler process

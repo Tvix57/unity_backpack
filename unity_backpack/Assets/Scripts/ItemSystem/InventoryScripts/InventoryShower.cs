@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
+    public event Action Injecting;
+
     [SerializeField] private Text _nameField;
     [SerializeField] private Image _icon;
     [SerializeField] private Text _count;
@@ -38,10 +41,31 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
     
     public void OnEndDrag(PointerEventData eventData) {
-        //if (coord - on enventory)
-        // transfor.parent = GetNewParent();
-        // if (transfor.parent == )
-        // SetParentInventory();
+        // eventData.position = Input.mousePosition;
+        // List<RaycastResult> results = new List<RaycastResult>();
+        // EventSystem.current.RaycastAll(eventData, results);
+        // gameObject parent_obj = _originalParent.parent;
+
+        // if (results.Count > 0) {
+        //     foreach(RaycastResult result in results) {
+        //         if (result.gameObject.name == "Inventory") {
+        //             if () {
+        //                 SetParentEquipment();
+        //                 break;
+        //             }
+        //             SetParentInventory();
+        //             break;
+        //         }
+                
+        //     }
+
+        //     SetParentWorld()
+        // }
+        if (In((RectTransform)_originalParent)) {
+            SetParentInventory();
+        } else {
+            SetParentWorld();
+        }
     }
 
     private void SetParentInventory() {
@@ -61,11 +85,11 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
 
     private void SetParentWorld() {
-
+        Injecting?.Invoke();
     }
 
-    private Transform GetNewParent() {
-        Transform new_parent;
-        return new_parent;
-    }
+    // private Transform GetNewParent() {
+    //     Transform new_parent;
+    //     return new_parent;
+    // }
 }
