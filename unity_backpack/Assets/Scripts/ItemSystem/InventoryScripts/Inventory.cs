@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
 
+
+public delegate AssetItem EquipDelegate(AssetItem item);
 public class Inventory : MonoBehaviour
 {
-    public delegate bool EquipDelegate(AssetItem item);
+    public EquipDelegate myDelegate;
 
     [SerializeField] private List<AssetItem> Items;
     [SerializeField] private InventoryShower _inventoryShower;
@@ -44,6 +46,7 @@ public class Inventory : MonoBehaviour
             var cell = Instantiate(_inventoryShower, _container);
             cell.Init(_draggingParent);
             cell.Render(item);
+            cell.InInventory += () => ReplaceItem(item);
             cell.Drop += () => Destroy(cell.gameObject);
             cell.Eqip += () => TryEquip(cell);
         });
@@ -119,11 +122,36 @@ public class Inventory : MonoBehaviour
         return result;
     }
 
-    public void TryEquip(AssetItem item) {
+    public void ReplaceItem(AssetItem item) {
+        // int closestIndex = 0;
+        // for(int i = 0; i < _originalParent.transform.childCount; i++) {
+        //     if (Vector3.Distance(transform.position, _originalParent.GetChild(i).position) < 
+        //         Vector3.Distance(transform.position, _originalParent.GetChild(closestIndex).position)) {
+        //             closestIndex = i;
+        //     }
+        // }
+        // transform.parent = _originalParent;
+        // transform.SetSiblingIndex(closestIndex);
+    }
+
+    public void StackItem(AssetItem item1, AssetItem item2) {
+        uint new_count = item1.Count + item2.Count;
+        if (new_count > item1.Max_stack) {
+            item1.Count = item1.Max_stack;
+            item2.Count = new_count - item1.Max_stack;
+        } else {
+            item1.Count = new_count;
+            //item2.Delete
+        }
+    }
+
+    public void TryEquip(InventoryShower item) {
         if(true) { ///проверка на соответствие слота
-            if (EquipDelegate?.(item)) {
-                Destroy(cell.gameObject);
-            } 
+            // item.transform.parent = Find<gameObject>("Eqipment").transform.
+            AssetItem prev_item = myDelegate(item.GetComponent<AssetItem>());
+            if (prev_item != null) {
+                AddItem(prev_item);
+            }
         }
     }
 }

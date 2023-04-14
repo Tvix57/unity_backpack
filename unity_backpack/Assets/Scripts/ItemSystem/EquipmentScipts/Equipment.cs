@@ -35,7 +35,7 @@ public class Equipment : MonoBehaviour
     private GunAssetItem _weapon = null;
     
     public void Start() {
-        _inventory.EquipDelegate += SetItem;
+        _inventory.myDelegate = SetItem;
     }
 
     public void Shoot() {
@@ -45,13 +45,22 @@ public class Equipment : MonoBehaviour
             Debug.Log("No ammo");
         }
     }
-    public bool SetItem(AssetItem item) {
+    public AssetItem SetItem(AssetItem item) {
+        AssetItem prev_item = null;
         switch(item.Slot) {
-            case IItem.ItemSlot.Head: { _head = item as ArmorAssetItem; break; }
-            case IItem.ItemSlot.Body: { _body = item as ArmorAssetItem; break; }
-            case IItem.ItemSlot.Hands: { _weapon = item as GunAssetItem; break; }
-            default: break;
-            
+            case IItem.ItemSlot.Head: {
+                prev_item = _head;
+                _head = item as ArmorAssetItem; break; 
+            }
+            case IItem.ItemSlot.Body: { 
+                prev_item = _body;
+                _body = item as ArmorAssetItem; break; 
+                }
+            case IItem.ItemSlot.Hands: { 
+                prev_item = _weapon;
+                _weapon = item as GunAssetItem; break; 
+            }
         }
+        return prev_item;
     }
 }

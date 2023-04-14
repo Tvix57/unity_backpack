@@ -6,6 +6,13 @@ using System;
 
 public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
+    enum DropTo {
+        Inventory,
+        Equpment,
+        World
+    }
+
+    public event Action InInventory;
     public event Action Drop;
     public event Action Eqip;
 
@@ -43,54 +50,42 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     }
     
     public void OnEndDrag(PointerEventData eventData) {
-        if (InInventory(eventData)) {
-            if (InEqupment(eventData)) {
-                SetParentEquipment();
-            } else {
-                SetParentInventory();
-            }
-        } else {
-            SetParentWorld();
+        switch (WhereToDrop(eventData)) {
+            case DropTo.Inventory: { InInventory?.Invoke(); break; }
+            case DropTo.Equpment: { Eqip?.Invoke(); break; }
+            case DropTo.World: { Drop?.Invoke(); break; }
         }
     }
 
     private void SetParentInventory() {
-        int closestIndex = 0;
-        for(int i = 0; i < _originalParent.transform.childCount; i++) {
-            if (Vector3.Distance(transform.position, _originalParent.GetChild(i).position) < 
-                Vector3.Distance(transform.position, _originalParent.GetChild(closestIndex).position)) {
-                    closestIndex = i;
-            }
-        }
-        transform.parent = _originalParent;
-        transform.SetSiblingIndex(closestIndex);
+        // int closestIndex = 0;
+        // for(int i = 0; i < _originalParent.transform.childCount; i++) {
+        //     if (Vector3.Distance(transform.position, _originalParent.GetChild(i).position) < 
+        //         Vector3.Distance(transform.position, _originalParent.GetChild(closestIndex).position)) {
+        //             closestIndex = i;
+        //     }
+        // }
+        // transform.parent = _originalParent;
+        // transform.SetSiblingIndex(closestIndex);
     }
 
-    private void SetParentEquipment() {
-        Eqip?.Invoke();
-    }
-
-    private void SetParentWorld() {
-        Drop?.Invoke();
-    }
-
-    private bool InInventory(PointerEventData eventData) {
+    
+    private DropTo WhereToDrop(PointerEventData eventData) {
         eventData.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
+        List<string> names = new List<string>();
         EventSystem.current.RaycastAll(eventData, results);
         if (results.Count > 0) {
             foreach(RaycastResult result in results) {
-                Debug.Log(result.gameObject.name);
-                if (result.gameObject.name == "Inventory") {
-                    return true;
+                names.Add(result.gameObject.name);
+            }
+            if (names.Contains("Inventory")) {
+                if (names.Contains("Equipment")) {
+                    return DropTo.Equpment;
                 }
+                return DropTo.Inventory;
             }
         }
-        return false;
-    }
-
-    private bool InEqupment(PointerEventData eventData) {
-        // return originalParent.rect.Contains(transform.position);
-        return false;
+        return DropTo.World;
     }
 }
