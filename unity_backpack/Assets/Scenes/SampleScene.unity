@@ -833,7 +833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -867,12 +867,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 163670354}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e0ad46cb8fcc454c815c68bebb4925f, type: 3}
+  m_Script: {fileID: 11500000, guid: aef7cb4d7c45d4b1da0bc5d12407ceb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nameField: {fileID: 0}
   _icon: {fileID: 0}
   _count: {fileID: 0}
+  _slot: 2
 --- !u!1 &197646673
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,7 +957,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 115948678}
   m_HandleRect: {fileID: 115948677}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2952,10 +2953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventory: {fileID: 1949848678}
-  _head_slot: {fileID: 1925203798}
-  _body_slot: {fileID: 1561523608}
-  _weapon_slot: {fileID: 163670355}
-  _trincket_slot: {fileID: 1633103934}
+  _container: {fileID: 69683217}
   _inventoryShower: {fileID: 0}
 --- !u!114 &1324750054
 MonoBehaviour:
@@ -3218,7 +3216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3252,12 +3250,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1561523607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e0ad46cb8fcc454c815c68bebb4925f, type: 3}
+  m_Script: {fileID: 11500000, guid: aef7cb4d7c45d4b1da0bc5d12407ceb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nameField: {fileID: 0}
   _icon: {fileID: 0}
   _count: {fileID: 0}
+  _slot: 1
 --- !u!1 &1633103933
 GameObject:
   m_ObjectHideFlags: 0
@@ -3269,6 +3268,7 @@ GameObject:
   - component: {fileID: 1633103934}
   - component: {fileID: 1633103936}
   - component: {fileID: 1633103935}
+  - component: {fileID: 1633103937}
   m_Layer: 5
   m_Name: TrinketSlot
   m_TagString: Untagged
@@ -3309,7 +3309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3334,6 +3334,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633103933}
   m_CullTransparentMesh: 1
+--- !u!114 &1633103937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633103933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aef7cb4d7c45d4b1da0bc5d12407ceb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _nameField: {fileID: 0}
+  _icon: {fileID: 0}
+  _count: {fileID: 0}
+  _slot: 3
 --- !u!1 &1668348942
 GameObject:
   m_ObjectHideFlags: 0
@@ -3980,7 +3996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4014,12 +4030,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1925203797}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e0ad46cb8fcc454c815c68bebb4925f, type: 3}
+  m_Script: {fileID: 11500000, guid: aef7cb4d7c45d4b1da0bc5d12407ceb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nameField: {fileID: 0}
   _icon: {fileID: 0}
   _count: {fileID: 0}
+  _slot: 0
 --- !u!1 &1949848674
 GameObject:
   m_ObjectHideFlags: 0

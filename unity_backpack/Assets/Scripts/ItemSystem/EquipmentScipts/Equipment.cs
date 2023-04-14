@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Equipment : MonoBehaviour
 {
@@ -29,11 +30,7 @@ public class Equipment : MonoBehaviour
     }
 
     [SerializeField] private Inventory _inventory;
-    [SerializeField] private Transform _head_slot;
-    [SerializeField] private Transform _body_slot;
-    [SerializeField] private Transform _weapon_slot;
-    [SerializeField] private Transform _trincket_slot;
-    [SerializeField] private InventoryShower _inventoryShower;
+    [SerializeField] private Transform _container;
 
     private ArmorAssetItem _head = null;
     private ArmorAssetItem _body = null;
@@ -53,21 +50,35 @@ public class Equipment : MonoBehaviour
 
     public AssetItem SetItem(AssetItem item) {
         AssetItem prev_item = null;
-        switch(item.Slot) {
-            case IItem.ItemSlot.Head: {
-                prev_item = _head;
-                // item.transform = _head_slot;
-                _head = item as ArmorAssetItem; break; 
-            }
-            case IItem.ItemSlot.Body: { 
-                prev_item = _body;
-                // item.transform = _body_slot;
-                _body = item as ArmorAssetItem; break; 
+        Vector3 mousePosition = Input.mousePosition;
+        EquipmentShower shower;
+        for (int i = 0; i < _container.transform.childCount; ++i) {
+            if (_container.GetChild(i).GetComponent<RectTransform>().rect.Contains(
+                _container.GetChild(i).transform.InverseTransformPoint(mousePosition))) {
+
+                shower = _container.GetChild(i).gameObject.GetComponent<EquipmentShower>();
+                if (item.Slot == shower.SlotType) {
+                    shower.Init(_container);
+                    shower.Render(item);
+                    switch (item.Slot) {
+                        case IItem.ItemSlot.Head: {
+                            prev_item = _head;
+                            _head = item as ArmorAssetItem; break;
+                        }
+                        case IItem.ItemSlot.Body: {
+                            prev_item = _body;
+                            _body = item as ArmorAssetItem; break;
+                        }
+                        case IItem.ItemSlot.Hands: {
+                            prev_item = _weapon;
+                            _weapon = item as GunAssetItem; break;
+                        }
+                    }
                 }
-            case IItem.ItemSlot.Hands: { 
-                prev_item = _weapon;
-                // item.transform = _weapon;
-                _weapon = item as GunAssetItem; break; 
+                else {
+                    prev_item = item;
+                }
+                break;
             }
         }
         return prev_item;
