@@ -56,36 +56,24 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
             case DropTo.World: { Drop?.Invoke(); break; }
         }
     }
-
-    private void SetParentInventory() {
-        // int closestIndex = 0;
-        // for(int i = 0; i < _originalParent.transform.childCount; i++) {
-        //     if (Vector3.Distance(transform.position, _originalParent.GetChild(i).position) < 
-        //         Vector3.Distance(transform.position, _originalParent.GetChild(closestIndex).position)) {
-        //             closestIndex = i;
-        //     }
-        // }
-        // transform.parent = _originalParent;
-        // transform.SetSiblingIndex(closestIndex);
-    }
-
     
     private DropTo WhereToDrop(PointerEventData eventData) {
+        DropTo way = DropTo.World;
         eventData.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
-        List<string> names = new List<string>();
         EventSystem.current.RaycastAll(eventData, results);
         if (results.Count > 0) {
             foreach(RaycastResult result in results) {
-                names.Add(result.gameObject.name);
-            }
-            if (names.Contains("Inventory")) {
-                if (names.Contains("Equipment")) {
-                    return DropTo.Equpment;
+                if (result.gameObject.GetComponent<Inventory>() != null) {
+                    way = DropTo.Inventory;
+                    break;
                 }
-                return DropTo.Inventory;
+                if (result.gameObject.GetComponent<Equipment>() != null) {
+                    way = DropTo.Equpment;
+                    break;
+                }
             }
         }
-        return DropTo.World;
+        return way;
     }
 }

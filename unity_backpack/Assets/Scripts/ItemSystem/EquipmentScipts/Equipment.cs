@@ -29,7 +29,12 @@ public class Equipment : MonoBehaviour
     }
 
     [SerializeField] private Inventory _inventory;
-    // [SerializeField] private InventoryShower _inventoryShower;
+    [SerializeField] private Transform _head_slot;
+    [SerializeField] private Transform _body_slot;
+    [SerializeField] private Transform _weapon_slot;
+    [SerializeField] private Transform _trincket_slot;
+    [SerializeField] private InventoryShower _inventoryShower;
+
     private ArmorAssetItem _head = null;
     private ArmorAssetItem _body = null;
     private GunAssetItem _weapon = null;
@@ -40,24 +45,28 @@ public class Equipment : MonoBehaviour
 
     public void Shoot() {
         if (_weapon != null && _inventory.GetAmmo(_weapon.AmmoType)) {
-            Debug.Log("Shoot");
+            Debug.Log("Shoot" + Damage.ToString());
         } else {
             Debug.Log("No ammo");
         }
     }
+
     public AssetItem SetItem(AssetItem item) {
         AssetItem prev_item = null;
         switch(item.Slot) {
             case IItem.ItemSlot.Head: {
                 prev_item = _head;
+                // item.transform = _head_slot;
                 _head = item as ArmorAssetItem; break; 
             }
             case IItem.ItemSlot.Body: { 
                 prev_item = _body;
+                // item.transform = _body_slot;
                 _body = item as ArmorAssetItem; break; 
                 }
             case IItem.ItemSlot.Hands: { 
                 prev_item = _weapon;
+                // item.transform = _weapon;
                 _weapon = item as GunAssetItem; break; 
             }
         }

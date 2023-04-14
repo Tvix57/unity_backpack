@@ -6,6 +6,7 @@ using UnityEditor;
 
 
 public delegate AssetItem EquipDelegate(AssetItem item);
+
 public class Inventory : MonoBehaviour
 {
     public EquipDelegate myDelegate;
@@ -48,7 +49,7 @@ public class Inventory : MonoBehaviour
             cell.Render(item);
             cell.InInventory += () => ReplaceItem(item);
             cell.Drop += () => Destroy(cell.gameObject);
-            cell.Eqip += () => TryEquip(cell);
+            cell.Eqip += () => TryEquip(item);
         });
     }
 
@@ -123,15 +124,35 @@ public class Inventory : MonoBehaviour
     }
 
     public void ReplaceItem(AssetItem item) {
+        Vector3 mousePosition = Input.mousePosition;
+        int item_index = _container.transform.childCount;
         // int closestIndex = 0;
-        // for(int i = 0; i < _originalParent.transform.childCount; i++) {
-        //     if (Vector3.Distance(transform.position, _originalParent.GetChild(i).position) < 
-        //         Vector3.Distance(transform.position, _originalParent.GetChild(closestIndex).position)) {
-        //             closestIndex = i;
-        //     }
-        // }
+        for(int i = 0; i < _container.transform.childCount; i++) {
+            // if (Vector3.Distance(transform.position, _originalParent.GetChild(i).position) < 
+            //     Vector3.Distance(transform.position, _originalParent.GetChild(closestIndex).position)) {
+            //         closestIndex = i;
+            // }
+            if (_container.GetChild(i).transform) {
+                item_index = i;
+            }
+        }
         // transform.parent = _originalParent;
         // transform.SetSiblingIndex(closestIndex);
+
+
+        if (Items.Contains(item)) {
+            ///переместить или стакнуть
+        } else {
+            AddItem(item);
+        }
+
+        // if (item.ID == closestObj.ItemID && item.Stackable) {
+        //     StackItem(item, closestObj);
+        // } else {
+        //     item.transform.parent = _container;
+        //     item.transform.SetSiblingIndex(closestIndex);
+        // }
+        // RenderItems(Items);
     }
 
     public void StackItem(AssetItem item1, AssetItem item2) {
@@ -141,18 +162,19 @@ public class Inventory : MonoBehaviour
             item2.Count = new_count - item1.Max_stack;
         } else {
             item1.Count = new_count;
-            //item2.Delete
+            Items.Remove(item2);
         }
     }
 
-    public void TryEquip(InventoryShower item) {
-        if(true) { ///проверка на соответствие слота
-            // item.transform.parent = Find<gameObject>("Eqipment").transform.
-            AssetItem prev_item = myDelegate(item.GetComponent<AssetItem>());
+    public void TryEquip(AssetItem item) {
+        AssetItem prev_item = myDelegate(item);
+        if (item != prev_item) {
+            Items.Remove(item);
             if (prev_item != null) {
                 AddItem(prev_item);
             }
         }
+        RenderItems(Items);
     }
 }
- 
+
