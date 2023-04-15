@@ -15,6 +15,7 @@ public interface IItem
         Trinket,
         NoSlot
     }
+    
     int ID { get; }
     string  Name { get; }
     Sprite  Icon { get; }

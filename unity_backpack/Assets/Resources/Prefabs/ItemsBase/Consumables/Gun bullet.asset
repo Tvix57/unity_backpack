@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863b332ae170f4a1e8231f8a7847b9e7, type: 3}
   m_Name: Gun bullet
   m_EditorClassIdentifier: 
-  _id: 0
+  _id: 7
   _name: Gun bullet
   _icon: {fileID: 21300000, guid: c7d314da6c8d147a1a20ea6154a8b83f, type: 3}
   _mass: 0.01
@@ -21,4 +21,4 @@ MonoBehaviour:
   _stackable: 1
   _max_stack: 30
   _count: 10
-  _item_type: 0
+  "_\u0441onsumable_type": 0

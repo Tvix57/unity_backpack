@@ -29,4 +29,10 @@ public class AssetItem : ScriptableObject, IItem
     [SerializeField] private bool _stackable = false;
     [SerializeField] private uint _max_stack;
     [SerializeField] private uint _count;
+
+
+    public bool Equals(int id) {
+        return ID == id;
+    }
+
 }

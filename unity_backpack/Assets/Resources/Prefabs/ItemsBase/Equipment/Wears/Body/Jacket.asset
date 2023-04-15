@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b58e37adf380fc5efa2c3a9c67441eea, type: 3}
   m_Name: Jacket
   m_EditorClassIdentifier: 
-  _id: 0
+  _id: 4
   _name: Jacket
   _icon: {fileID: 21300000, guid: d67b860ad71dc443ba51e064c2bc172b, type: 3}
   _mass: 1

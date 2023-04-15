@@ -13,7 +13,11 @@ public class Inventory : MonoBehaviour
 
     public Transform ItemContainer { get { return _container; } }
 
-    [SerializeField] private List<AssetItem> Items;
+    public List<AssetItem> Items => _items;
+
+
+    [SerializeField] private DatabaseManager db;
+    [SerializeField] private List<AssetItem> _items;
     [SerializeField] private InventoryShower _inventoryShower;
     [SerializeField] private InventoryCell _inventoryCell;
     [SerializeField] private Transform _container;
@@ -25,6 +29,12 @@ public class Inventory : MonoBehaviour
 
     public void Start() {
         SetSize();
+        _items = db.LoadItems("Inventory");
+        RenderItems(_items);
+    }
+
+    void OnApplicationQuit() {
+        db.SaveItems("Inventory", _items);
     }
 
     public void OnEnable() {

@@ -2961,7 +2961,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266587beb1cea4d1dbf253577116ce2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  db: {fileID: 2112793154}
   _inventory: {fileID: 1949848678}
+  _inventoryShower: {fileID: 0}
   _container: {fileID: 69683217}
   _containerBackground: {fileID: 1807114130}
   _draggingParent: {fileID: 1794801270}
@@ -3997,7 +3999,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08e5190d4e87b49a7afa5e5d6a5b548a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Items: []
+  db: {fileID: 2112793154}
+  _items: []
   _inventoryShower: {fileID: 3018386099414380291, guid: 13254e535e4054e34be0cc7df149d4ab, type: 3}
   _inventoryCell: {fileID: -1230070614650016923, guid: c56403c36dc0a5b9786294d29eaaaad3, type: 3}
   _container: {fileID: 855064502}
@@ -4210,6 +4213,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2112793153}
+  - component: {fileID: 2112793154}
   m_Layer: 5
   m_Name: EqipmentAndInventory
   m_TagString: Untagged
@@ -4239,6 +4243,18 @@ RectTransform:
   m_AnchoredPosition: {x: -85, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2112793154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112793152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99460ebaf57d74eb1a4bc4eedc2e539d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2114703408
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,7 +30,9 @@ public class Equipment : MonoBehaviour
     }
 
     public Transform ItemContainer { get { return _container; } }
+    [SerializeField] private DatabaseManager db;
     [SerializeField] private Inventory _inventory;
+    [SerializeField] private InventoryShower _inventoryShower;
     [SerializeField] private Transform _container;
     [SerializeField] private Transform _containerBackground;
     [SerializeField] private Transform _draggingParent;
@@ -41,6 +43,30 @@ public class Equipment : MonoBehaviour
     
     public void Start() {
         _inventory.myDelegate = SetItem;
+        // LoadFromDB();
+    }
+
+    void OnApplicationQuit() {
+        // LoadToDB();
+    }
+
+    public void LoadFromDB() {
+        List<AssetItem> items = db.LoadItems("Equipment");
+        items.ForEach(item => {
+            switch (item.Slot) {
+                case IItem.ItemSlot.Head: { _head = item as ArmorAssetItem; break; }
+                case IItem.ItemSlot.Body: { _body = item as ArmorAssetItem; break; }
+                case IItem.ItemSlot.Hands: { _weapon = item as GunAssetItem; break; }
+            }
+        });
+    }
+
+    public void LoadToDB() {
+        List<AssetItem> items = new List<AssetItem>();
+        items.Add(_head);
+        items.Add(_body);
+        items.Add(_weapon);
+        db.SaveItems("Equipment", items);
     }
 
     public void Shoot() {

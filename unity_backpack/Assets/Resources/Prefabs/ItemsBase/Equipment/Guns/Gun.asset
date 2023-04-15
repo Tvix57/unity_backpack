@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9681bfa6ad4d3c9e49afcb005f28f48e, type: 3}
   m_Name: Gun
   m_EditorClassIdentifier: 
-  _id: 0
+  _id: 1
   _name: Gun
   _icon: {fileID: 21300000, guid: 165cc791188d043068d10e43f37d5cba, type: 3}
   _mass: 5
@@ -22,3 +22,4 @@ MonoBehaviour:
   _max_stack: 1
   _count: 1
   _damage: 20
+  _ammo_type: 0
