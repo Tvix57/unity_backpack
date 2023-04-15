@@ -17,7 +17,7 @@ public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBe
     public event Action Eqip;
 
     [SerializeField] private Text _nameField;
-    [SerializeField] private Image _icon;
+    [SerializeField] protected Image _icon;
     [SerializeField] private Text _count;
 
     private Transform _draggingParent;

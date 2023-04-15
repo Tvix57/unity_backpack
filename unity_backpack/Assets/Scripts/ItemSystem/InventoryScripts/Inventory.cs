@@ -5,11 +5,13 @@ using UnityEngine.UI;
 using UnityEditor;
 
 
-public delegate AssetItem EquipDelegate(AssetItem item);
+public delegate AssetItem EquipDelegate(AssetItem item, InventoryShower shower);
 
 public class Inventory : MonoBehaviour
 {
     public EquipDelegate myDelegate;
+
+    public Transform ItemContainer { get { return _container; } }
 
     [SerializeField] private List<AssetItem> Items;
     [SerializeField] private InventoryShower _inventoryShower;
@@ -47,9 +49,10 @@ public class Inventory : MonoBehaviour
             var cell = Instantiate(_inventoryShower, _container);
             cell.Init(_draggingParent);
             cell.Render(item);
-            cell.InInventory += () => ReplaceItem(item);
+            cell.InInventory += () => ReplaceItem(item, cell);
             cell.Drop += () => Destroy(cell.gameObject);
-            cell.Eqip += () => TryEquip(item);
+            cell.Drop += () => Items.Remove(item);
+            cell.Eqip += () => TryEquip(item, cell);
         });
     }
 
@@ -123,51 +126,44 @@ public class Inventory : MonoBehaviour
         return result;
     }
 
-    public void ReplaceItem(AssetItem item) {
+    public void ReplaceItem(AssetItem item, InventoryShower shower) {
         Vector3 mousePosition = Input.mousePosition;
-        int item_index = _container.transform.childCount;
-        // int closestIndex = 0;
+        if (Items.Contains(item)) {
+            Items.Remove(item);
+        }
+        shower.transform.parent = _container.transform;
+
         for(int i = 0; i < _container.transform.childCount; i++) {
-            // if (Vector3.Distance(transform.position, _originalParent.GetChild(i).position) < 
-            //     Vector3.Distance(transform.position, _originalParent.GetChild(closestIndex).position)) {
-            //         closestIndex = i;
-            // }
-            if (_container.GetChild(i).transform) {
-                item_index = i;
+            var child = _container.GetChild(i);
+            if (child.GetComponent<RectTransform>().rect.Contains(
+                child.transform.InverseTransformPoint(mousePosition))) {
+                if (item.Stackable && item.ID == Items[i].ID) {
+                    StackItem(Items[i], item);
+                    Destroy(shower.gameObject);
+                } else {
+                    Items.Insert(++i, item);
+                    shower.transform.SetSiblingIndex(i);
+                }
+                RenderItems(Items);
+                break;
             }
         }
-        // transform.parent = _originalParent;
-        // transform.SetSiblingIndex(closestIndex);
-
-
-        if (Items.Contains(item)) {
-            ///переместить или стакнуть
-        } else {
-            AddItem(item);
-        }
-
-        // if (item.ID == closestObj.ItemID && item.Stackable) {
-        //     StackItem(item, closestObj);
-        // } else {
-        //     item.transform.parent = _container;
-        //     item.transform.SetSiblingIndex(closestIndex);
-        // }
-        // RenderItems(Items);
     }
 
-    public void StackItem(AssetItem item1, AssetItem item2) {
-        uint new_count = item1.Count + item2.Count;
-        if (new_count > item1.Max_stack) {
-            item1.Count = item1.Max_stack;
-            item2.Count = new_count - item1.Max_stack;
+    public void StackItem(AssetItem ToItem, AssetItem FromItem) {
+        uint new_count = ToItem.Count + FromItem.Count;
+        if (new_count > ToItem.Max_stack) {
+            ToItem.Count = ToItem.Max_stack;
+            FromItem.Count = new_count - ToItem.Max_stack;
+            Items.Add(FromItem);
         } else {
-            item1.Count = new_count;
-            Items.Remove(item2);
+            ToItem.Count = new_count;
+            Items.Remove(FromItem);
         }
     }
 
-    public void TryEquip(AssetItem item) {
-        AssetItem prev_item = myDelegate(item);
+    public void TryEquip(AssetItem item, InventoryShower shower) {
+        AssetItem prev_item = myDelegate(item, shower);
         if (item != prev_item) {
             Items.Remove(item);
             if (prev_item != null) {

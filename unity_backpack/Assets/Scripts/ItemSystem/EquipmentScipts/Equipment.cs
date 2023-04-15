@@ -29,8 +29,11 @@ public class Equipment : MonoBehaviour
         }
     }
 
+    public Transform ItemContainer { get { return _container; } }
     [SerializeField] private Inventory _inventory;
     [SerializeField] private Transform _container;
+    [SerializeField] private Transform _containerBackground;
+    [SerializeField] private Transform _draggingParent;
 
     private ArmorAssetItem _head = null;
     private ArmorAssetItem _body = null;
@@ -48,18 +51,22 @@ public class Equipment : MonoBehaviour
         }
     }
 
-    public AssetItem SetItem(AssetItem item) {
+    public AssetItem SetItem(AssetItem item, InventoryShower inputShower) {
         AssetItem prev_item = null;
         Vector3 mousePosition = Input.mousePosition;
-        EquipmentShower shower;
         for (int i = 0; i < _container.transform.childCount; ++i) {
-            if (_container.GetChild(i).GetComponent<RectTransform>().rect.Contains(
-                _container.GetChild(i).transform.InverseTransformPoint(mousePosition))) {
+            var child = _container.GetChild(i);
+            if (child.GetComponent<RectTransform>().rect.Contains(
+                child.transform.InverseTransformPoint(mousePosition))) {
+                if (item.Slot == child.gameObject.GetComponent<SlotProperty>().SlotType) {
+                    if (child.childCount != 0) {
+                        foreach (Transform childShower in child.transform) {
+                            Destroy(childShower.gameObject);
+                        }
+                    }
+                    inputShower.transform.parent = child.transform;
+                    inputShower.transform.position = child.transform.position;  
 
-                shower = _container.GetChild(i).gameObject.GetComponent<EquipmentShower>();
-                if (item.Slot == shower.SlotType) {
-                    shower.Init(_container);
-                    shower.Render(item);
                     switch (item.Slot) {
                         case IItem.ItemSlot.Head: {
                             prev_item = _head;
@@ -74,9 +81,9 @@ public class Equipment : MonoBehaviour
                             _weapon = item as GunAssetItem; break;
                         }
                     }
-                }
-                else {
+                } else {
                     prev_item = item;
+                    Destroy(inputShower.gameObject);
                 }
                 break;
             }
