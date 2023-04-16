@@ -30,6 +30,7 @@ public class Equipment : MonoBehaviour
     }
 
     public Transform ItemContainer { get { return _container; } }
+
     [SerializeField] private DatabaseManager db;
     [SerializeField] private Inventory _inventory;
     [SerializeField] private InventoryShower _inventoryShower;
@@ -43,32 +44,47 @@ public class Equipment : MonoBehaviour
     
     public void Start() {
         _inventory.myDelegate = SetItem;
-        // LoadFromDB();
+        LoadFromDB();
     }
 
     void OnApplicationQuit() {
-        // LoadToDB();
+        LoadToDB();
     }
 
     public void LoadFromDB() {
         List<AssetItem> items = db.LoadItems("Equipment");
         items.ForEach(item => {
+            InventoryShower shower;
             switch (item.Slot) {
-                case IItem.ItemSlot.Head: { _head = item as ArmorAssetItem; break; }
-                case IItem.ItemSlot.Body: { _body = item as ArmorAssetItem; break; }
-                case IItem.ItemSlot.Hands: { _weapon = item as GunAssetItem; break; }
+                case IItem.ItemSlot.Head: { 
+                    _head = item as ArmorAssetItem;
+                    shower = Instantiate(_inventoryShower, transform.Find("Content").Find("HeadSlot"));;
+                    break; 
+                }
+                case IItem.ItemSlot.Body: { 
+                    _body = item as ArmorAssetItem;
+                    shower = Instantiate(_inventoryShower, transform.Find("Content").Find("BodySlot"));
+                    break; 
+                }
+                case IItem.ItemSlot.Hands: {
+                    _weapon = item as GunAssetItem; 
+                    shower = Instantiate(_inventoryShower, transform.Find("Content").Find("GunSlot"));
+                    break; 
+                }
+                default: { shower = null; break; }
             }
+            shower?.Init(_draggingParent);
+            shower?.Render(item);
         });
     }
 
     public void LoadToDB() {
         List<AssetItem> items = new List<AssetItem>();
-        items.Add(_head);
-        items.Add(_body);
-        items.Add(_weapon);
+        if (_head != null) items.Add(_head);
+        if (_body != null) items.Add(_body);
+        if (_weapon != null) items.Add(_weapon);
         db.SaveItems("Equipment", items);
     }
-
     public void Shoot() {
         if (_weapon != null && _inventory.GetAmmo(_weapon.AmmoType)) {
             Debug.Log("Shoot" + Damage.ToString());
