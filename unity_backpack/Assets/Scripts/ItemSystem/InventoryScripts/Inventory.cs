@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
+using UnityEditorInternal.Profiling.Memory.Experimental;
+using static UnityEditor.Progress;
 
 
 public delegate AssetItem EquipDelegate(AssetItem item, InventoryShower shower);
@@ -21,7 +23,6 @@ public class Inventory : MonoBehaviour
     [SerializeField] private InventoryShower _inventoryShower;
     [SerializeField] private InventoryCell _inventoryCell;
     [SerializeField] private Transform _container;
-    [SerializeField] private Transform _containerBackground;
     [SerializeField] private Transform _draggingParent;
     [SerializeField] private uint _max_size = 30;
     [SerializeField] private uint _unlock_size = 15;
@@ -30,7 +31,7 @@ public class Inventory : MonoBehaviour
     public void Start() {
         SetSize();
         _items = db.LoadItems("Inventory");
-        RenderItems(_items);
+        RenderAll();
     }
 
     void OnApplicationQuit() {
@@ -38,8 +39,7 @@ public class Inventory : MonoBehaviour
     }
 
     public void OnEnable() {
-        RenderItems(Items);
-        RenderBack();
+       RenderItems();
     }
 
     private void SetSize() {
@@ -51,27 +51,68 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void RenderItems(List<AssetItem> items) {
-        foreach (Transform child in _container) {
-            Destroy(child.gameObject);
+    public void RenderAll() {
+        RenderBack();
+        RenderItems();
+    }
+
+    public void RenderItems() {
+        for (int i = 0; i < _container.transform.childCount; ++i) {
+            var cell = _container.GetChild(i).GetComponent<InventoryCell>();
+            if (i < _items.Count) {
+                if (cell.Status) {
+                    var item = Instantiate(_inventoryShower);
+                    item.Init(_draggingParent);
+                    item.Render(_items[i]);
+                    cell.SetItem(item);
+                    item.InInventory += () => ReplaceItem(_items[i], item);
+                    item.Drop += () => Destroy(item.gameObject);
+                    item.Drop += () => _items.Remove(_items[i]);
+                    item.Eqip += () => TryEquip(_items[i], item);
+                }
+            } else {
+                cell.RemoveItem();
+            }
         }
-        items.ForEach(item => {
-            var cell = Instantiate(_inventoryShower, _container);
-            cell.Init(_draggingParent);
-            cell.Render(item);
-            cell.InInventory += () => ReplaceItem(item, cell);
-            cell.Drop += () => Destroy(cell.gameObject);
-            cell.Drop += () => Items.Remove(item);
-            cell.Eqip += () => TryEquip(item, cell);
-        });
+    }
+
+    public void RenderItems(int index_from) {
+        for (int i = index_from; i < _container.transform.childCount; ++i) {
+            var cell = _container.GetChild(i).GetComponent<InventoryCell>();
+            if (i < _items.Count) {
+                if (cell.Status) {
+                    var item = Instantiate(_inventoryShower);
+                    item.Init(_draggingParent);
+                    item.Render(_items[i]);
+                    cell.SetItem(item);
+                    item.InInventory += () => ReplaceItem(_items[i], item);
+                    item.Drop += () => Destroy(item.gameObject);
+                    item.Drop += () => _items.Remove(_items[i]);
+                    item.Eqip += () => TryEquip(_items[i], item);
+                }
+            } else {
+                cell.RemoveItem();
+            }
+        }
+    }
+
+    public void ReRenderItem(int index) {
+
+        var cell = _container.GetChild(index).GetComponent<InventoryCell>();
+        var item = Instantiate(_inventoryShower);
+        item.Init(_draggingParent);
+        item.Render(_items[index]);
+        cell.SetItem(item);
+
+        item.InInventory += () => ReplaceItem(_items[index], item);
+        item.Drop += () => Destroy(item.gameObject);
+        item.Drop += () => _items.Remove(_items[index]);
+        item.Eqip += () => TryEquip(_items[index], item);
     }
 
     public void RenderBack() {
-        foreach (Transform child in _containerBackground) {
-            Destroy(child.gameObject);
-        }
         for (int i = 0; i < _max_size; ++i) {
-            var cell = Instantiate(_inventoryCell, _containerBackground);
+            var cell = Instantiate(_inventoryCell, _container);
             if (i < _unlock_size) {
                 cell.Render(true);
             } else {
@@ -81,16 +122,18 @@ public class Inventory : MonoBehaviour
     }
 
     public void AddItem(AssetItem item) {
-        if (Items.Count < _unlock_size) {
-            Items.Add(item);
-            RenderItems(Items);
+        if (_items.Count < _unlock_size) {
+            _items.Add(item);
+            RenderItems();
         }
     }
 
-    public void RemoveItem() {
-        if (Items.Count != 0) {
-            Items.RemoveAt(UnityEngine.Random.Range(0, Items.Count));
-            RenderItems(Items);
+    public void RemoveRandomItem() {
+        if (_items.Count != 0) {
+            int index = UnityEngine.Random.Range(0, _items.Count);
+            _items.RemoveAt(index);
+            RemoveAllItems(index);
+            RenderItems(index);
         }
     }
 
@@ -118,17 +161,18 @@ public class Inventory : MonoBehaviour
 
     public bool GetAmmo(ConsumablesAssetItem.Type _ammo_type) {
         bool result = false;
-        for (int i = 0; i < Items.Count; ++i) {
-            if (Items[i].Type == IItem.ItemType.Consumables) {
-                ConsumablesAssetItem cons = Items[i] as ConsumablesAssetItem;
+        for (int i = 0; i < _items.Count; ++i) {
+            if (_items[i].Type == IItem.ItemType.Consumables) {
+                ConsumablesAssetItem cons = _items[i] as ConsumablesAssetItem;
                 if (cons.ConsumableType == _ammo_type) {
                     if (cons.Count > 1) {
                         --cons.Count;
                     } else {
-                        Items.RemoveAt(i);
+                        _items.RemoveAt(i);
                     }
+                    RemoveAllItems(i);
+                    RenderItems(i);
                     result = true;
-                    RenderItems(Items);
                     break;
                 }
             }
@@ -138,25 +182,39 @@ public class Inventory : MonoBehaviour
 
     public void ReplaceItem(AssetItem item, InventoryShower shower) {
         Vector3 mousePosition = Input.mousePosition;
-        if (Items.Contains(item)) {
-            Items.Remove(item);
+        if (_items.Contains(item)) {
+            _items.Remove(item);
         }
-        shower.transform.parent = _container.transform;
 
-        for(int i = 0; i < _container.transform.childCount; i++) {
+        for (int i = 0; i < _container.transform.childCount; ++i) {
             var child = _container.GetChild(i);
             if (child.GetComponent<RectTransform>().rect.Contains(
                 child.transform.InverseTransformPoint(mousePosition))) {
-                if (item.Stackable && item.ID == Items[i].ID) {
-                    StackItem(Items[i], item);
+  
+                if (item.Stackable && item.ID == _items[i].ID) {
+                    StackItem(_items[i], item);
                     Destroy(shower.gameObject);
                 } else {
-                    Items.Insert(++i, item);
+                    _items.Insert(++i, item);
+                    child.GetComponent<InventoryCell>().SetItem(shower);
                     shower.transform.SetSiblingIndex(i);
                 }
-                RenderItems(Items);
+                RemoveAllItems(i);
+                RenderItems(i);
                 break;
             }
+        }
+    }
+
+    private void RemoveAllItems() {
+        for (int i = 0; i < _container.transform.childCount; ++i) {
+            _container.GetChild(i).GetComponent<InventoryCell>().RemoveItem();
+        }
+    }
+
+    private void RemoveAllItems(int index_from) {
+        for (int i = index_from; i < _container.transform.childCount; ++i) {
+            _container.GetChild(i).GetComponent<InventoryCell>().RemoveItem();
         }
     }
 
@@ -165,22 +223,23 @@ public class Inventory : MonoBehaviour
         if (new_count > ToItem.Max_stack) {
             ToItem.Count = ToItem.Max_stack;
             FromItem.Count = new_count - ToItem.Max_stack;
-            Items.Add(FromItem);
+            _items.Add(FromItem);
         } else {
             ToItem.Count = new_count;
-            Items.Remove(FromItem);
+            _items.Remove(FromItem);
         }
     }
 
     public void TryEquip(AssetItem item, InventoryShower shower) {
         AssetItem prev_item = myDelegate(item, shower);
         if (item != prev_item) {
-            Items.Remove(item);
+            _items.Remove(item);
             if (prev_item != null) {
                 AddItem(prev_item);
             }
         }
-        RenderItems(Items);
+        RemoveAllItems();
+        RenderItems();
     }
 }
 

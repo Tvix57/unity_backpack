@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/DragAndDrop/DragAndDropWindow.uss?fileID=7433441132597879392&amp;guid=5b785230bc0db4849bbad58f4f3e50a3&amp;type=3#DragAndDropWindow" />
+    <ui:Label text="Hello World! From UXML" />
+    <ui:VisualElement name="slots">
+        <ui:VisualElement name="slots_row1" class="slot_row">
+            <ui:VisualElement name="slot1" class="slot" />
+            <ui:VisualElement name="slot2" class="slot" />
+        </ui:VisualElement>
+        <ui:VisualElement name="slots_row2" class="slot_row">
+            <ui:VisualElement name="slot2" class="slot" />
+            <ui:VisualElement name="slot1" class="slot">
+                <ui:VisualElement name="object" class="object" style="top: 15px; left: -74px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
