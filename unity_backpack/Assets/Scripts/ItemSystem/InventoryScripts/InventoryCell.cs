@@ -3,8 +3,10 @@ using UnityEngine.UI;
 
 public class InventoryCell : MonoBehaviour
 {
-    private InventoryShower _currentItem = null;
     public bool Status => _status;
+
+    private InventoryShower _currentItem = null;
+
     private bool _status;
     public void Render(bool status) {
         _status = status;
