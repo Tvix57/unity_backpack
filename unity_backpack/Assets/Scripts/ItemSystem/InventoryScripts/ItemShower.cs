@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System;
 
-public class InventoryShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
+public class ItemShower : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     enum DropTo {
         Inventory,

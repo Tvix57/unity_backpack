@@ -33,7 +33,7 @@ public class Equipment : MonoBehaviour
 
     [SerializeField] private DatabaseManager db;
     [SerializeField] private Inventory _inventory;
-    [SerializeField] private InventoryShower _inventoryShower;
+    [SerializeField] private ItemShower _inventoryShower;
     [SerializeField] private Transform _container;
     [SerializeField] private Transform _containerBackground;
     [SerializeField] private Transform _draggingParent;
@@ -54,7 +54,7 @@ public class Equipment : MonoBehaviour
     public void LoadFromDB() {
         List<AssetItem> items = db.LoadItems("Equipment");
         items.ForEach(item => {
-            InventoryShower shower;
+            ItemShower shower;
             switch (item.Slot) {
                 case IItem.ItemSlot.Head: { 
                     _head = item as ArmorAssetItem;
@@ -93,7 +93,7 @@ public class Equipment : MonoBehaviour
         }
     }
 
-    public AssetItem SetItem(AssetItem item, InventoryShower inputShower) {
+    public AssetItem SetItem(AssetItem item, ItemShower inputShower) {
         AssetItem prev_item = null;
         Vector3 mousePosition = Input.mousePosition;
         for (int i = 0; i < _container.transform.childCount; ++i) {

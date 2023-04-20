@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryCell : MonoBehaviour
+public class ItemCell : MonoBehaviour
 {
     public bool Status => _status;
-
-    private InventoryShower _currentItem = null;
+    public AssetItem Item => _item;
 
     private bool _status;
+    private AssetItem _item = null;
+    private ItemShower _currentItem = null;
+
     public void Render(bool status) {
         _status = status;
         if (status) {
@@ -17,7 +19,11 @@ public class InventoryCell : MonoBehaviour
         }
     }
 
-    public void SetItem(InventoryShower item) {
+    public void RenderItem() {
+
+    }
+
+    public void SetItem(ItemShower item) {
         RemoveItem();
         _currentItem = item;
         item.transform.parent = transform;

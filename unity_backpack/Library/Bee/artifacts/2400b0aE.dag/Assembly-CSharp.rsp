@@ -396,13 +396,14 @@
 "Assets/Scripts/ItemSystem/EquipmentScipts/Equipment.cs"
 "Assets/Scripts/ItemSystem/EquipmentScipts/SlotProperty.cs"
 "Assets/Scripts/ItemSystem/InventoryScripts/Inventory.cs"
-"Assets/Scripts/ItemSystem/InventoryScripts/InventoryCell.cs"
-"Assets/Scripts/ItemSystem/InventoryScripts/InventoryShower.cs"
+"Assets/Scripts/ItemSystem/InventoryScripts/ItemCell.cs"
+"Assets/Scripts/ItemSystem/InventoryScripts/ItemShower.cs"
 "Assets/Scripts/ItemSystem/ItemsScripts/AssetItem.cs"
 "Assets/Scripts/ItemSystem/ItemsScripts/IItem.cs"
 "Assets/Scripts/ItemSystem/ItemsScripts/SpecialAssetItem/ArmorAssetItem.cs"
 "Assets/Scripts/ItemSystem/ItemsScripts/SpecialAssetItem/ConsumablesAssetItem.cs"
 "Assets/Scripts/ItemSystem/ItemsScripts/SpecialAssetItem/GunAssetItem.cs"
+"Assets/Scripts/ItemSystem/ItemsStorageScript/ItemsStorage.cs"
 "Assets/Scripts/UIButtons/ButtonManager.cs"
 -langversion:9.0
 
