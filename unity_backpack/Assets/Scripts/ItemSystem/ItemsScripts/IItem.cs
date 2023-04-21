@@ -22,6 +22,7 @@ public interface IItem
     double  Mass { get; }
     ItemType Type { get; }
     ItemSlot Slot { get; }
+    // event Action UpdateShower { get; }
     bool    Stackable { get; }
     uint    Max_stack { get; }
     uint    Count { get; set; }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class AssetItem : ScriptableObject, IItem
 {
@@ -9,6 +10,7 @@ public class AssetItem : ScriptableObject, IItem
     public double Mass => _mass;
     public IItem.ItemType Type => _type;
     public IItem.ItemSlot Slot => _slot;
+    // public event Action updateShower;
     public bool Stackable => _stackable;
     public uint Max_stack =>_max_stack;
     public uint Count {
@@ -16,6 +18,7 @@ public class AssetItem : ScriptableObject, IItem
         set {  
             if (value <= _max_stack) {
                 _count = value;
+                // updateShower?.Invoke();
             }
         }
     }
