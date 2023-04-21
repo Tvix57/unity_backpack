@@ -6,6 +6,7 @@ public abstract class ItemsStorage : MonoBehaviour
 {
     [SerializeField] protected string _storeName;
     [SerializeField] protected int _maxSize;
+    [SerializeField] protected uint _unlock_size;
     [SerializeField] protected List<AssetItem> _items;
     [SerializeField] protected ItemCell _cellPrefab;
     [SerializeField] protected ItemShower _showerPrefab;
@@ -21,14 +22,32 @@ public abstract class ItemsStorage : MonoBehaviour
         _db.SaveItems(_storeName, _items);
     }
 
-    public abstract void RenderBack();
-    public abstract void RenderItems();
+    public void RenderBack() {
+        for (int i = 0; i < _maxSize; ++i) {
+            var cell = Instantiate(_cellPrefab, _cellContainer);
+            if (i < _unlock_size) {
+                cell.Render(true);
+            } else {
+                cell.Render(false);
+            }
+        }
+    }
+
+    public void RenderItems() {
+
+    }
     
-    public abstract void AddItem(AssetItem newItem) {
+    public void AddItem(AssetItem newItem) {
         _items.Add(newItem);
     }
-    public abstract void RemoveItem();
-    public abstract AssetItem SwapItem(AssetItem importItem);
+
+    public void RemoveItem(ItemCell cellFrom) {
+
+    }
+
+    public AssetItem SwapItem(ItemCell cellFrom, AssetItem importItem) {
+        return importItem;
+    }
 
 
 }
