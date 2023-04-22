@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public abstract class ItemsStorage : MonoBehaviour
 {
+    public EquipDelegate myDelegate;
+
     [SerializeField] protected string _storeName;
     [SerializeField] protected int _maxSize;
     [SerializeField] protected int _unlock_size;
@@ -16,6 +19,9 @@ public abstract class ItemsStorage : MonoBehaviour
 
     public void Start() {
         _items = _db.LoadItems(_storeName);
+        SetSize();
+        RenderBack();
+        RenderItems();
     }
 
     public void OnApplicationQuit() {
@@ -32,11 +38,17 @@ public abstract class ItemsStorage : MonoBehaviour
             }
         }
     }
-
+    
     public void RenderItems() {
-        if (index <_cellContainer.transform.childCount && index < Items.Count) {
-            var cell = _cellContainer.GetChild(index).GetComponent<ItemCell>();
-            LinkItem(Items[index] , cell);
+        for (int i = 0; i < _cellContainer.transform.childCount; ++i) {
+            var cell = _cellContainer.GetChild(i).GetComponent<ItemCell>();
+            if (i < _items.Count) {
+                if (cell.Status) {
+                    LinkItem(_items[i], cell);
+                }
+            } else {
+                cell.RemoveItem();
+            }
         }
     }
     
@@ -45,31 +57,30 @@ public abstract class ItemsStorage : MonoBehaviour
             var item = Instantiate(_showerPrefab);
             item.Init(_draggingParent);
             item.Render(item_asset);
-            cell.SetItem(item);
-            item.InInventory += () => ReplaceItem(item_asset, item);
-            item.Drop += () => Destroy(item.gameObject);
-            item.Drop += () => Items.Remove(item_asset);
-            item.Eqip += () => TryEquip(item_asset, item);
+            cell.SetItem(item_asset, item);
+            //  item.InInventory += () => ReplaceItem(item_asset, item);
+            //  item.Drop += () => RemoveItem(cell, item);
+            //  item.Eqip += () => TryEquip(item_asset, item);
         }
     }
 
-    public void RenderItem() {
 
-    }
 
     public void AddItem(AssetItem newItem) {
         _items.Add(newItem);
     }
 
-    public void RemoveItem(ItemCell cellFrom) {
-
+    public void RemoveItem(ItemCell cellFrom, ItemShower shower) {
+        cellFrom.RemoveItem();
+        Destroy(shower.gameObject);
     }
 
-    public AssetItem SwapItem(ItemCell cellFrom, ItemShower importItem) {
-        return importItem;
+    public void SwapItem(ItemCell cellFrom, ItemCell cellTo) {
+        
     }
 
-    public void ReplaceItem(AssetItem item, ItemShower shower) {
+    protected abstract void SetSize();
+/*    public void ReplaceItem(AssetItem item, ItemShower shower) {
         Vector3 mousePosition = Input.mousePosition;
         if (Items.Contains(item)) {
             Items.Remove(item);
@@ -94,7 +105,7 @@ public abstract class ItemsStorage : MonoBehaviour
                 break;
             }
         }
-    }
+    }*/
 
 
     private void StackItem(AssetItem ToItem, AssetItem FromItem) {
@@ -102,10 +113,10 @@ public abstract class ItemsStorage : MonoBehaviour
         if (new_count > ToItem.Max_stack) {
             ToItem.Count = ToItem.Max_stack;
             FromItem.Count = new_count - ToItem.Max_stack;
-            Items.Add(FromItem);
+         //   Items.Add(FromItem);
         } else {
             ToItem.Count = new_count;
-            Items.Remove(FromItem);
+          //  Items.Remove(FromItem);
         }
     }
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ItemCell : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class ItemCell : MonoBehaviour
 
     private bool _status;
     private AssetItem _item = null;
-    private ItemShower _currentItem = null;
+    private ItemShower _itemShower = null;
 
     public void Render(bool status) {
         _status = status;
@@ -19,22 +20,20 @@ public class ItemCell : MonoBehaviour
         }
     }
 
-    public void RenderItem() {
-
-    }
-
-    public void SetItem(ItemShower item) {
+    public void SetItem(AssetItem item, ItemShower itemShower) {
         RemoveItem();
-        _currentItem = item;
-        item.transform.parent = transform;
-        item.transform.position = transform.position;
+        _item = item;
+        _itemShower = itemShower;
+        itemShower.transform.parent = transform;
+        itemShower.transform.position = transform.position;
     }
     
     public void RemoveItem() {
-        if (_currentItem != null) {
-            Destroy(_currentItem.gameObject);
-            _currentItem = null;
+        if (_itemShower != null) {
+            Destroy(_itemShower.gameObject);
+            _itemShower = null;
         }
+        _item = null;
     }
 
 
