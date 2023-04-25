@@ -14,8 +14,6 @@ public class Inventory : ItemsStorage
 {
     
 
-  //  public Transform ItemContainer { get { return _container; } }
-
     public List<AssetItem> Items => _items;
 
     [SerializeField] private uint _items_in_row;
@@ -34,43 +32,23 @@ public class Inventory : ItemsStorage
         }
     }
 
-
-/*    private void RenderItems(int index_from = 0) {
-        for (int i = index_from; i < _cellContainer.transform.childCount; ++i) {
-            var cell = _cellContainer.GetChild(i).GetComponent<ItemCell>();
-            if (i < Items.Count) {
-                if (cell.Status) {
-                    LinkItem(Items[i], cell);
-                }
-            } else {
-                cell.RemoveItem();
+    public void RemoveRandomItem() {
+        List<ItemCell> celsWithItems = new List<ItemCell>();
+        foreach (Transform child in transform) {
+            ItemCell item = child.GetComponent<ItemCell>();
+            if (item != null && item.Item != null) {
+                celsWithItems.Add(item);
             }
         }
-    }*/
-
-/*    private void RenderItem(int index) {
-        if (index <_cellContainer.transform.childCount && index < Items.Count) {
-            var cell = _cellContainer.GetChild(index).GetComponent<ItemCell>();
-            LinkItem(Items[index] , cell);
+        if (celsWithItems.Count != 0) {
+            celsWithItems[UnityEngine.Random.Range(0, celsWithItems.Count)].RemoveItem();
         }
-    }*/
-
-/*    public void AddItem(AssetItem item) {
-        if (Items.Count < _unlock_size) {
-            Items.Add(item);
-            RenderItem(Items.Count - 1);
-        }
-    }*/
-
-    public void RemoveRandomItem() {
-
     }
 
     public void AddRandomItem() {
         AssetItem[] allItems = Resources.LoadAll<AssetItem>("Prefabs/ItemsBase/Equipment");
         if (allItems.Length != 0) {
-            int randomIndex = UnityEngine.Random.Range(0, allItems.Length);
-            AddItem(Instantiate(allItems[randomIndex]));
+            AddItem(Instantiate(allItems[UnityEngine.Random.Range(0, allItems.Length)]));
         }
     }
 

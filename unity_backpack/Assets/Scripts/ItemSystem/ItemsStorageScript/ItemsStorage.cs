@@ -80,6 +80,7 @@ public abstract class ItemsStorage : MonoBehaviour
     }
 
     protected abstract void SetSize();
+    
 /*    public void ReplaceItem(AssetItem item, ItemShower shower) {
         Vector3 mousePosition = Input.mousePosition;
         if (Items.Contains(item)) {

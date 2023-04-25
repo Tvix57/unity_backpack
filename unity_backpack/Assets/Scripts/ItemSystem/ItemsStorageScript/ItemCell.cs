@@ -35,6 +35,4 @@ public class ItemCell : MonoBehaviour
         }
         _item = null;
     }
-
-
 }
